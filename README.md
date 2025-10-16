@@ -2,71 +2,62 @@
 
 HomeFaceAI là một hệ thống nhận diện khuôn mặt hiện đại, kết hợp **Python backend** (nhận diện khuôn mặt) với **Flutter frontend** (giao diện di động).
 
-## Cấu trúc dự án
+## Cấu trúc dự án sau tái cấu trúc
 
 ```
 HomeFaceAI/
-├── backend/                 # Backend Python (FastAPI + Face Recognition)
-│   ├── core/               # Core nhận diện khuôn mặt
-│   ├── models/             # Database models
-│   ├── services/           # Business logic
-│   ├── utils/              # Utilities
-│   ├── tests/              # Unit tests
-│   ├── app.py              # FastAPI server
-│   ├── requirements.txt    # Dependencies
-│   └── README.md           # Backend documentation
+├── backend/                    # Backend Python (Face Recognition + API)
+│   ├── app.py                 # FastAPI server
+│   ├── core/                  # Core face recognition modules
+│   │   ├── __init__.py
+│   │   ├── api.py            # Face recognition API wrapper
+│   │   ├── face_detector.py  # FaceDetector class
+│   │   └── face_recognition.py
+│   ├── models/               # Database models
+│   ├── services/             # Business logic services
+│   ├── utils/                # Utility functions
+│   ├── tests/                # Unit tests
+│   ├── requirements.txt      # Python dependencies
+│   └── README.md             # Backend documentation
 │
-├── frontend/               # Frontend Flutter (tạo sau)
-│   ├── android/
-│   ├── ios/
-│   ├── lib/
-│   └── pubspec.yaml
-│
-├── data/                   # Data folder (for images, models, etc.)
-├── ui/                     # UI prototypes/designs (optional)
-├── requirements.md         # Project requirements
-└── README.md               # This file
+├── frontend/                  # Frontend Flutter (tạo sau)
+├── ui/                        # UI prototypes (from old project)
+├── data/                      # Data folder
+├── README.md                  # Project overview (This file)
+└── .gitignore                # Git ignore rules
 ```
 
 ## Yêu cầu hệ thống
 
 - **Python 3.8+**
 - **Flutter SDK** (cho frontend)
+- **macOS**: Xcode Command Line Tools
 - **pip** (package manager Python)
 
-## Cài đặt Backend
+## Cài đặt và chạy Backend
 
-### 1. Clone repository
+### 1. Activate virtual environment
 ```bash
-git clone https://github.com/baonguyen1776/HomeFaceAI.git
-cd HomeFaceAI
+source /path/to/face_env/bin/activate
 ```
 
-### 2. Tạo virtual environment (khuyến nghị)
-```bash
-python3 -m venv face_env
-source face_env/bin/activate  # macOS/Linux
-# hoặc
-face_env\Scripts\activate  # Windows
-```
-
-### 3. Cài dependencies
+### 2. Cài dependencies
 ```bash
 pip install -r backend/requirements.txt
 ```
 
-### 4. Chạy API server
+### 3. Chạy API server
 ```bash
 cd backend
 python app.py
 ```
 
-Server sẽ chạy tại `http://localhost:8000`
+Server sẽ chạy tại: **http://localhost:8000**
 
-### 5. Chạy tests
+### 4. Chạy tests
 ```bash
 cd backend
-python -m unittest tests/test_face_detector.py
+python -m unittest tests/test_face_detector.py -v
 ```
 
 ## API Documentation
@@ -98,6 +89,44 @@ file: <image-file>
   ]
 }
 ```
+
+## Cải thiện từ cấu trúc cũ
+
+### Những thay đổi chính
+
+1. **Backend consolidation**: Tất cả code Python giờ ở `backend/`
+2. **Tách biệt frontend/backend**: Dễ dàng phát triển song song
+3. **Clean structure**: Xóa những file cũ không cần thiết ở root
+4. **API server**: Thêm `backend/app.py` để expose API cho Flutter
+
+### Các thư mục đã xóa ở root
+
+- ❌ `core/` → ✅ `backend/core/`
+- ❌ `tests/` → ✅ `backend/tests/`
+- ❌ `app/` → ✅ Thêm `backend/app.py` thay thế
+- ❌ `models/` → ✅ `backend/models/`
+- ❌ `services/` → ✅ `backend/services/`
+- ❌ `utils/` → ✅ `backend/utils/`
+
+## Bước tiếp theo
+
+1. ✅ Backend restructured
+2. ⏳ Create Flutter frontend in `frontend/` directory
+3. ⏳ Integrate frontend with backend API
+4. ⏳ Deploy to production
+
+## Troubleshooting
+
+Nếu gặp vấn đề:
+
+1. Kiểm tra `backend/requirements.txt` đã install đầy đủ không
+2. Chạy `python -m unittest tests/test_face_detector.py -v` để test backend
+3. Xem `SETUP.md` để hướng dẫn chi tiết
+
+---
+
+**Created**: October 16, 2025
+**Last Updated**: October 16, 2025
 
 ## Flutter Frontend (Coming Soon)
 
